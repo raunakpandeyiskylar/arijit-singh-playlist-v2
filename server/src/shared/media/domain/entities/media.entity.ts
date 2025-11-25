@@ -2,7 +2,9 @@
 export default interface MediaEntity {
     _id?: string,
     path: string,
-    isLocal: boolean,
+    local: boolean,
+    ref_code?: string;
+    ref_id: string;
     mimeType: string,
     createdAt: string,
     updatedAt: string,

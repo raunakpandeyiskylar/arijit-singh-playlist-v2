@@ -15,6 +15,8 @@
 
 # next.js
 /dist/
+/uploads/
+/.vscode/
 
 # production
 /build

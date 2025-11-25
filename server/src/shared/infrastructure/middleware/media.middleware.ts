@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import upload from "../../../config/multer.config";
 import mediaControllers from "../../media/application/controllers/media.controllers";
 
-export function mediaUploadMiddleware(fieldName: string, folder: string, maxCount?: number) {
+function mediaUploadMiddleware(fieldName: string, folder: string, maxCount?: number) {
     const uploadMiddleware = maxCount
         ? upload(folder).array(fieldName, maxCount)
         : upload(folder).single(fieldName);
@@ -24,7 +24,7 @@ export function mediaUploadMiddleware(fieldName: string, folder: string, maxCoun
                     return next();
                 }
 
-                await mediaControllers.handleMediaSave(req, res, next);
+                next();
             } catch (error) {
                 console.error('Media upload error:', error);
                 return res.error({
