@@ -13,6 +13,10 @@ const jammingSchema = new Schema<Jamming>({
         type: Types.ObjectId,
         ref: "Song",
     }],
+    createdBy: {
+        type: Types.ObjectId,
+        ref: "User"
+    },
     endAt: { type: Date, default: null },
     restartedAt: { type: Date, default: null },
     users: [{

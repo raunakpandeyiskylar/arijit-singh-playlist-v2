@@ -6,6 +6,7 @@ export default interface Jamming {
     sessionId: string;
     title: string;
     users: UserEntity[];
+    createdBy: UserEntity;
     playList: SongEntity[];
     mode: "shuffle" | "normal" | "repeat";
     endAt?: Date;

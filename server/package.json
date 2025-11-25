@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
     "multer": "^2.0.2",
-    "raw_lib": "^1.2.3",
+    "raw_lib": "^1.2.8",
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0",
     "zod": "^4.1.12"

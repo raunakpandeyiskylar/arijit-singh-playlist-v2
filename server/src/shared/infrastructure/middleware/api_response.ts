@@ -15,6 +15,7 @@ declare global {
       user: UserEntity,
       uploadedMedia: MediaEntity;
       uploadedMedias: MediaEntity[];
+      createdSongId?: string;
     }
   }
 }

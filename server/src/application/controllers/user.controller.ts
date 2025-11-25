@@ -4,8 +4,9 @@ import GetUserUsecase from "../../domain/usecases/user/get_user.usecase";
 import UpdateUserUsecase from "../../domain/usecases/user/update_user.usecase";
 import mongoAdapter from "../../shared/infrastructure/database/connection";
 import UserService from "../../data/services/user.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import UserEntity from "../../domain/entities/user.entity";
+import mediaControllers from "../../shared/media/application/controllers/media.controllers";
 
 class UserController {
     private updateUserUsecase: UpdateUserUsecase;
@@ -27,6 +28,10 @@ class UserController {
             // if (req.user?._id !== req.body?._id) {
             //     throw new Error(`You cannot edit ${req.body?.name || req.body?.username || "Someone else"}'s profile`)
             // }
+
+            if (req.file || req.files) {
+                await mediaControllers.handleMediaSave(req, res);
+            }
 
             return res.success(await this.updateUserUsecase.call(req.body as Partial<UserEntity>))
         } catch (error: any) {

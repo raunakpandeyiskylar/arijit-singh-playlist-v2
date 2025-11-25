@@ -1,18 +1,18 @@
 
-  import multer from 'multer';
+import multer from 'multer';
 import path from 'path';
 import { Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import {existsSync} from "node:fs";
-import {mkdirSync} from "fs";
+import { existsSync } from "node:fs";
+import { mkdirSync } from "fs";
 
 // Configure storage
-const storage = (folder: string) =>  multer.diskStorage({
+const storage = (folder: string) => multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb) => {
         const uploadPath = path.join(process.cwd(), 'uploads', 'media', folder);
 
-        if(!existsSync(uploadPath)) {
-            mkdirSync(uploadPath, {recursive: true});
+        if (!existsSync(uploadPath)) {
+            mkdirSync(uploadPath, { recursive: true });
         }
 
         cb(null, uploadPath);
@@ -36,9 +36,9 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilt
 // Configure multer
 const upload = (folder: string) => multer({
     storage: storage(folder),
-    fileFilter: fileFilter,
+    // fileFilter: fileFilter,
     limits: {
-        fileSize: 5 * 1024 * 1024,
+        fileSize: 20 * 1024 * 1024,
     }
 });
 

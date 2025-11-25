@@ -6,8 +6,10 @@ const songSchema = new Schema<SongEntity>({
     artists: [{
         type: String,
     }],
-    cover: { type: Types.ObjectId, ref: "Media", default: null },
-    song: { type: Types.ObjectId, ref: "Media", required: true },
+    createdBy: {
+        type: Types.ObjectId,
+        ref: "User",
+    }
 }, {
     timestamps: true,
 })
