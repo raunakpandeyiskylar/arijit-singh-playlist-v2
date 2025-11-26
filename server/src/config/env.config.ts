@@ -1,20 +1,25 @@
-
 import { config } from "dotenv";
 
 config();
 
 interface Config {
-    port: number;
-    nodeEnv: string;
-    dbURI: string;
-    secret: string;
+  port: number;
+  nodeEnv: string;
+  dbURI: string;
+  secret: string;
+  accoundId: string;
+  apiKey: string;
+  apiSecret: string;
 }
 
 const envConfig: Config = {
-    port: Number(process.env.PORT) || 9696,
-    nodeEnv: process.env.NODE_ENV || "development",
-    dbURI: process.env.DB_URI || "mongodb://localhost:27017/db_name",
-    secret: process.env.JWT_SECRET || "secret",
-}
+  port: Number(process.env.PORT) || 9696,
+  nodeEnv: process.env.NODE_ENV || "development",
+  dbURI: process.env.DB_URI || "mongodb://localhost:27017/db_name",
+  secret: process.env.JWT_SECRET || "secret",
+  accoundId: process.env.CLOUDINARY_ACCOUNT_ID || "",
+  apiKey: process.env.CLOUDINARY_API_KEY || "",
+  apiSecret: process.env.CLOUDINARY_API_SECRET || "",
+};
 
 export default envConfig;
