@@ -15,8 +15,8 @@ RUN apk add --no-cache \
     python --version && \
     ffmpeg -version
 
-# Install yt-dlp (YouTube downloader)
-RUN pip3 install --no-cache-dir yt-dlp==2024.11.11
+# # Install yt-dlp (YouTube downloader)
+# RUN pip3 install --no-cache-dir yt-dlp==2024.11.11
 
 WORKDIR /server
 
