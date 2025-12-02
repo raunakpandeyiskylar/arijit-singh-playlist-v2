@@ -97,7 +97,7 @@ const useSongsStore = create<SongsState>()(persist(
                     throw new Error(response.message);
                 }
 
-                set((state) => ({ songs: [...state.songs, response.data?.type === "single" ? response.data.item : response.data?.items[0] as SongEntity] }));
+                get().getSongs({ page: 1, limit: 999, id: null });
             } catch (error: any) {
             } finally {
                 set({ loading: false });

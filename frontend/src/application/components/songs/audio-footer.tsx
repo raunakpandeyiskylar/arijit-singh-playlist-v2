@@ -101,7 +101,7 @@ export default function AudioPlayerFooter() {
             {/* Hidden audio element */}
             <audio
                 ref={audioRef}
-                src={typeof currentPlaying.song === 'string' ? currentPlaying.song : currentPlaying.song.path}
+                src={typeof currentPlaying.song === 'string' ? currentPlaying.song : currentPlaying.song?.path}
                 loop={loop}
                 preload='metadata'
             />

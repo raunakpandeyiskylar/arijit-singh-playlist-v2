@@ -1,0 +1,30 @@
+# railway.toml
+[build]
+builder = "dockerfile"
+dockerfilePath = "./Dockerfile"
+
+[deploy]
+startCommand = "node dist/server.js"
+healthcheckPath = "/"
+healthcheckTimeout = 30
+
+[service]
+autoDeploy = true
+numReplicas = 1
+sleepApplication = false
+
+[service.cpu]
+compute = "nano"
+
+[service.memory]
+limit = "1024"
+swap = "512"
+
+[variables]
+NODE_ENV = "production"
+PORT = "6969"
+DB_URI = "mongodb+srv://raunak:raunakisthebest@cluster0.118mdij.mongodb.net/?appName=Cluster0"
+JWT_SECRET = "raunak_cli_is_the_best"
+CLOUDINARY_ACCOUNT_ID = "dnvsjww6u"
+CLOUDINARY_API_KEY = "388379582954374"
+CLOUDINARY_API_SECRET = "0hl9PVXnGgQ42keV9ghRCsyCPPE"

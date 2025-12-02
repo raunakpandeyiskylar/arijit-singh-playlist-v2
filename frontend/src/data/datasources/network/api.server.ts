@@ -45,7 +45,7 @@ export default class ApiServer {
     }
 
     async post<T>(url: string, data?: any, contentType?: string): Promise<RawQlResponse<T>> {
-        const response = await this.axios.post<RawQlResponse<T>>(`/api/v1${url}`, JSON.stringify(data), {
+        const response = await this.axios.post<RawQlResponse<T>>(`/api/v1${url}`, data, {
             headers: {
                 "Content-Type": contentType
             }

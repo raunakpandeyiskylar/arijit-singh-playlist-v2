@@ -19,9 +19,18 @@ export async function GET(req: NextRequest) {
       entity: "Media",
       type: "get",
       filter: {
-        field: "ref_id",
-        op: "eq",
-        value: searchParams.get("id"),
+        and: [
+          {
+            field: "ref_id",
+            op: "eq",
+            value: searchParams.get("id"),
+          },
+          {
+            field: "ref_code",
+            op: "eq",
+            value: "song",
+          }
+        ]
       },
     } as RawQlRequest);
 

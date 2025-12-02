@@ -5,12 +5,26 @@ import userRoutes from "../../application/routes/user.routes.js";
 import songRoutes from "../../application/routes/songs.routes.js";
 import path from "node:path";
 import { authMiddleware } from "../../shared/infrastructure/middleware/auth.middleware.js";
+import YoutubeConvertor from "../../lib/youtube.convertor.js";
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(apiResponse);
 app.use("/api/v1/uploads", authMiddleware, express.static(path.join(process.cwd(), "uploads")));
+
+app.post("/api/v1/convert", async (req, res) => {
+  try {
+    return res.success(await YoutubeConvertor.convertToAudio(req.body));
+  } catch (error: any) {
+    return res.error({
+      status: false,
+      message: error.message || "Something went wrong",
+      data: null,
+    })
+  }
+})
 
 app.get("/", (req, res) => {
   return res.success({

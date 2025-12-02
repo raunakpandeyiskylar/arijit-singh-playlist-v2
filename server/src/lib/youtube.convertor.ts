@@ -1,13 +1,18 @@
 import { existsSync, mkdirSync, readFileSync, statSync, unlinkSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
+import { RawQlResponse } from "raw_lib";
 import { exec } from "yt-dlp-exec";
 
 export interface YouTubeConversionRequest {
     youtubeUrl: string;
 }
 
-export interface YouTubeConversionResponse {
+export interface YouTubeConversionResponse extends RawQlResponse<{
+    audio: string,
+    mimeType: string,
+    size?: number;
+}> {
     status: boolean;
     data: {
         type: "single",
@@ -17,7 +22,7 @@ export interface YouTubeConversionResponse {
             size?: number;
         }
     }
-    message?: string;
+    message: string;
 }
 
 export default class YoutubeConvertor {
@@ -29,7 +34,7 @@ export default class YoutubeConvertor {
         }
     }
 
-    static async convertToWav(request: YouTubeConversionRequest): Promise<YouTubeConversionResponse> {
+    static async convertToAudio(request: YouTubeConversionRequest): Promise<YouTubeConversionResponse> {
         try {
             await this.ensureTempDir();
 
@@ -40,11 +45,11 @@ export default class YoutubeConvertor {
             }
 
             const filename = `song_${Date.now()}`;
-            const outputPath = join(this.temptDir, `${filename}.wav`);
+            const outputPath = join(this.temptDir, `${filename}.mp3`);
 
             await exec(youtubeUrl, {
                 extractAudio: true,
-                audioFormat: 'wav',
+                audioFormat: 'mp3',
                 audioQuality: 0,
                 output: outputPath,
                 noCheckCertificate: true,
@@ -73,7 +78,7 @@ export default class YoutubeConvertor {
                     type: "single",
                     item: {
                         audio: audioBuffer.toString('base64'),
-                        mimeType: 'audio/wav',
+                        mimeType: 'audio/mp3',
                         size: audioBuffer.length,
                     }
                 }

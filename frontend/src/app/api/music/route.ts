@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ApiServer from "@/data/datasources/network/api.server";
 import SongEntity from "@/domain/entities/song.entity";
-import YoutubeConvertor from "@/lib/youtube.convertor";
 import { NextRequest, NextResponse } from "next/server";
 import { RawQlPipelineStep, RawQlRequest } from "raw_lib";
 
@@ -111,9 +110,11 @@ export async function POST(req: NextRequest) {
 
     console.log("Starting song addition process...");
 
-    const conversionResult = await YoutubeConvertor.convertToWav({
-      youtubeUrl: youtubeLink,
-    });
+    const conversionResult = await apiServer.post<{
+      audio: string,
+      mimeType: string,
+      size?: number;
+    }>("/convert", { youtubeUrl: youtubeLink });
 
     if (!conversionResult.status) {
       throw new Error(conversionResult.message || "YouTube conversion failed");
@@ -121,13 +122,17 @@ export async function POST(req: NextRequest) {
 
     console.log("YouTube conversion successful, preparing upload...");
 
+    if (!conversionResult.status || !conversionResult.data || conversionResult.data.type !== "single") {
+      throw new Error(conversionResult.message);
+    }
+
     const audioBuffer = Buffer.from(conversionResult.data.item.audio, "base64");
     const audioBlob = new Blob([audioBuffer], {
       type: conversionResult.data.item.mimeType,
     });
     const audioFile = new File(
       [audioBlob],
-      `${(formData.get("name") as string).replace(/\s+/g, "_")}.wav`,
+      `${(formData.get("name") as string).replace(/\s+/g, "_")}.mp3`,
       {
         type: conversionResult.data.item.mimeType,
       }
