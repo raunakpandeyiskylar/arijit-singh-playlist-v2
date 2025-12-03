@@ -26,7 +26,7 @@ export default function AudioPlayerFooter() {
     } = useSongsStore();
 
     const audioRef = useRef<HTMLAudioElement>(null);
-    const [isSeeking, setIsSeeking] = useState(false);
+    const [, setIsSeeking] = useState(false);
 
     // Sync audio element with store
     useEffect(() => {
@@ -47,17 +47,17 @@ export default function AudioPlayerFooter() {
         audio.addEventListener('timeupdate', updateTime);
         audio.addEventListener('loadedmetadata', updateDuration);
         audio.addEventListener('ended', handleEnded);
-        audio.addEventListener("pause", togglePlay);
-        audio.addEventListener("play", togglePlay);
+        audio.addEventListener("pause", () => togglePlay(false));
+        audio.addEventListener("play", () => togglePlay(true));
 
         return () => {
             audio.removeEventListener('timeupdate', updateTime);
             audio.removeEventListener('loadedmetadata', updateDuration);
             audio.removeEventListener('ended', handleEnded);
-            audio.removeEventListener("pause", togglePlay);
-            audio.removeEventListener("play", togglePlay);
+            audio.removeEventListener("pause", () => togglePlay(false));
+            audio.removeEventListener("play", () => togglePlay(true));
         };
-    }, [setCurrentTime, setDuration, loop, playNext]);
+    }, [setCurrentTime, setDuration, loop, playNext, togglePlay]);
 
     // Play/pause audio
     useEffect(() => {

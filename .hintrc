@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "backdrop-filter"
+        ]
+      }
+    ],
+    "axe/name-role-value": "off",
+    "button-type": "off",
+    "axe/forms": "off",
+    "no-inline-styles": "off"
+  }
+}

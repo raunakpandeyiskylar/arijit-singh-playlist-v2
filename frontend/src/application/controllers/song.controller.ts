@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // application/controllers/songs.store.ts
 'use client';
 
@@ -25,7 +26,7 @@ interface SongsState {
     addSong: (songData: FormData) => Promise<void>;
     getSongs: ({ page, limit, id }: { page: number, limit: number, id: string | null }) => Promise<void>;
     setCurrentPlaying: (song: SongEntity | null, playing: boolean) => void;
-    togglePlay: () => void;
+    togglePlay: (playing: boolean) => void;
     setVolume: (volume: number) => void;
     setCurrentTime: (time: number) => void;
     setDuration: (duration: number) => void;
@@ -50,7 +51,7 @@ const useSongsStore = create<SongsState>()(persist(
 
         setSongs: (songs) => set({ songs }),
         setCurrentPlaying: (song, playing) => set({ currentPlaying: song, playing: playing }),
-        togglePlay: () => set((state) => ({ playing: !state.playing })),
+        togglePlay: (playing) => set({ playing }),
         setVolume: (volume) => set({ volume }),
         setCurrentTime: (currentTime) => set({ currentTime }),
         setDuration: (duration) => set({ duration }),
@@ -99,6 +100,7 @@ const useSongsStore = create<SongsState>()(persist(
 
                 get().getSongs({ page: 1, limit: 999, id: null });
             } catch (error: any) {
+                set({ error: error.mesasge || "Something went wrong" });
             } finally {
                 set({ loading: false });
             }

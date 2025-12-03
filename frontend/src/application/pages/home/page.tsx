@@ -15,7 +15,7 @@ export default function HomePage() {
 
     useEffect(() => {
         getSongs({ page: 1, limit: 999, id: null });
-    }, [user]);
+    }, [user, getSongs]);
 
     return (
         <div className="max-w-full mx-auto space-y-4">
